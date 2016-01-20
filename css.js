@@ -30,7 +30,7 @@ module.exports = function getCssTask(spec) {
             .pipe(concat(destFile))
             .pipe(postcss([
                 autoprefixer({browsers: ["last 2 versions"]}),
-                cssnano
+                cssnano({safe: true})
             ]))
             .pipe(sourcemaps.write("."))
             .pipe(size({title: spec.name}))
