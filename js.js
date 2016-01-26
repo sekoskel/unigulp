@@ -8,22 +8,20 @@ var plumber = require("gulp-plumber");
 var size = require("gulp-size");
 var sourcemaps = require("gulp-sourcemaps");
 var uglify = require("gulp-uglify");
+var util = require("./util");
 
 module.exports = function getCssTask(spec) {
     var destDir = path.dirname(spec.dest);
     var destFile = path.basename(spec.dest);
+    var vendorRe = (spec.vendorRe || /(bower_components|node_modules|vendor)/);
+    var babelConfig = spec.babelConfig || {presets: ["es2015"]};
     return function () {
         return gulp.src(spec.src || [])
-            .pipe(plumber({
-                handleError: function (err) {
-                    console.log(err);
-                    this.emit("end");
-                }
-            }))
+            .pipe(util.plumb())
             .pipe(sourcemaps.init())
             .pipe(gulpIf(function (file) {
-                return !/(bower_components|node_modules|vendor)/.test(file.path);
-            }, babel({presets: ["es2015"]})))
+                return !vendorRe.test(file.path);
+            }, babel(babelConfig)))
             .pipe(gulpIf(!!spec.production, uglify()))
             .pipe(concat(destFile))
             .pipe(sourcemaps.write("."))
