@@ -10,7 +10,7 @@ var sourcemaps = require("gulp-sourcemaps");
 var uglify = require("gulp-uglify");
 var util = require("./util");
 
-module.exports = function getCssTask(spec) {
+module.exports = function getJsTask(spec) {
     var destDir = path.dirname(spec.dest);
     var destFile = path.basename(spec.dest);
     var vendorRe = (spec.vendorRe || /(bower_components|node_modules|vendor)/);
