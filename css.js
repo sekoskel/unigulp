@@ -23,6 +23,7 @@ var DEFAULT_LESS_SETTINGS = {
  *
  * spec:
  *   * lessSettings: dict of less settings overrides
+ *   * postcssModules: optional array of additional PostCSS modules
  *
  * @param spec
  * @returns {Function}
@@ -34,6 +35,7 @@ module.exports = function getCssTask(spec) {
     var postcssModules = [
         autoprefixer({browsers: ["last 2 versions"]})
     ];
+    postcssModules = postcssModules.concat(spec.postcssModules || []);
     if(spec.production) {
         postcssModules.push(cssnano({safe: true}));
     }
