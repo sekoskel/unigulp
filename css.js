@@ -10,6 +10,8 @@ var postcss = require("gulp-postcss");
 var size = require("gulp-size");
 var sourcemaps = require("gulp-sourcemaps");
 var util = require("./util");
+var livereload = require('gulp-livereload');
+
 
 var DEFAULT_LESS_SETTINGS = {
     strictImports: true,
@@ -36,7 +38,7 @@ module.exports = function getCssTask(spec) {
         autoprefixer({browsers: ["last 2 versions"]})
     ];
     postcssModules = postcssModules.concat(spec.postcssModules || []);
-    if(spec.production) {
+    if (spec.production) {
         postcssModules.push(cssnano({safe: true}));
     }
     return function () {
@@ -48,6 +50,7 @@ module.exports = function getCssTask(spec) {
             .pipe(postcss(postcssModules))
             .pipe(sourcemaps.write("."))
             .pipe(size({title: spec.name}))
-            .pipe(gulp.dest(destDir));
+            .pipe(gulp.dest(destDir))
+            .pipe(livereload({start: true}));
     }
 };
