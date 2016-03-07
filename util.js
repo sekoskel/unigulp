@@ -8,3 +8,7 @@ module.exports.plumb = function plumb() {
         }
     });
 };
+
+module.exports.shouldStartLivereload = function() {
+    return !!process.env.LIVERELOAD;
+};

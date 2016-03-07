@@ -51,6 +51,6 @@ module.exports = function getCssTask(spec) {
             .pipe(sourcemaps.write("."))
             .pipe(size({title: spec.name}))
             .pipe(gulp.dest(destDir))
-            .pipe(livereload({start: true}));
+            .pipe(livereload({start: util.shouldStartLivereload()}));
     }
 };
